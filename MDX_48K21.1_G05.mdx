@@ -1,47 +1,0 @@
-//1. Total of Sale
-SELECT [Measures].[Sales] ON COLUMNS
-FROM [Sale OLAP_Cube];
-
-//2. Total of Sale by Country
-SELECT [Measures].[Sales] ON COLUMNS,
-	[Location].[Country].[Country] ON ROWS
-FROM [Sale OLAP_Cube];
-
-//2a. Total Sales of Vietnam
-SELECT [Measures].[Sales] ON COLUMNS,
-	[Location].[Country].[Country].[Vietnam] ON ROWS
-FROM [Sale OLAP_Cube];
-
-//2b. Total Sales of Vietnam
-SELECT [Measures].[Sales] ON COLUMNS
-FROM [Sale OLAP_Cube]
-WHERE [Location].[Country].[Country].[Vietnam];
-
-//3. Total Sales by Year
-SELECT [Measures].[Sales] ON COLUMNS,
-	[Time].[Order Year].[Order Year] ON ROWS
-FROM [Sale OLAP_Cube];
-
-//4. Total Sales by Year (skip null value)
-SELECT [Measures].[Sales] ON COLUMNS,
-	NONEMPTY ([Time].[Order Year].[Order Year]) ON ROWS
-FROM [Sale OLAP_Cube];
-
-//5. Total Sales by Year of VietnamSELECT [Measures].[Sales] ON COLUMNS,
-	NONEMPTY ([Time].[Order Year].[Order Year]) ON ROWS
-FROM [Sale OLAP_Cube]WHERE [Location].[Country].[Country].[Vietnam];//6. Total Sales and Profit by Year (skip null value)SELECT {[Measures].[Sales], [Profit]} ON COLUMNS,	NONEMPTY ([Time].[Order Year].[Order Year]) ON ROWSFROM [Sale OLAP_Cube];//7. Total Sales by Year and Sub-CategorySELECT NONEMPTY([Product].[Sub Category].[Sub Category]) ON ROWS,	NONEMPTY([Time].[Order Year].[Order Year]) ON COLUMNSFROM [Sale OLAP_Cube]WHERE [Measures].[Sales];//8. Total Quantity by Year and CategorySELECT NONEMPTY([Time].[Order Year].[Order Year]) ON COLUMNS,
-	NONEMPTY([Product].[Category].[Category]) ON ROWS
-FROM [Sale OLAP_Cube]
-WHERE [Measures].[Quantity]
-
-//9. Total Sales and Profits by Category  
-SELECT {[Measures].[Sales], [Measures].[Profit]} ON COLUMNS,
-       NONEMPTY([Product].[Category].[Category]) ON ROWS
-FROM [Sale OLAP_Cube]
-
-//10. Total Shipping Cost by Month of Vietnam in 2015
-SELECT [Measures].[Shipping Cost] ON COLUMNS,
-       NONEMPTY([Time].[Order Month].[Order Month]) ON ROWS
-FROM [Sale OLAP_Cube]
-WHERE ([Location].[Country].[Country].[Vietnam], [Time].[Order Year].[Order Year].[2015]);
-
